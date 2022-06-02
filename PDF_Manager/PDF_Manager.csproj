@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Printing\PrintInput\新しいフォルダー\**" />
+    <Compile Remove="Printing\新しいフォルダー1\**" />
+    <EmbeddedResource Remove="Printing\PrintInput\新しいフォルダー\**" />
+    <EmbeddedResource Remove="Printing\新しいフォルダー1\**" />
+    <None Remove="Printing\PrintInput\新しいフォルダー\**" />
+    <None Remove="Printing\新しいフォルダー1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Printing\PrintDiagram\KAJYU_ZU23.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="fonts\MS Gothic.ttf" />
+    <None Remove="fonts\MS Mincho.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="fonts\MS Gothic.ttf" />
+    <EmbeddedResource Include="fonts\MS Mincho.ttf" />
+  </ItemGroup>
+
+</Project>

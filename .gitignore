@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-FrameCalc/.vs
-FrameCalc/bin
-FrameCalc/obj
-FrameCalc/packages
-FrameWeb/bin/
-FrameControler/obj/
-FrameControler/bin/
 .vs/
-FrameWeb/obj/
-=======
-api/__pycache__
-test
-*.csv
-out_grid.json
->>>>>>> python
-__pycache__/
+obj/
+bin/
