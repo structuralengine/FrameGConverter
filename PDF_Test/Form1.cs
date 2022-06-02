@@ -1,4 +1,4 @@
-﻿using PDF_Manager;
+﻿using SevenZipExtractor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,16 +25,28 @@ namespace PDF_Test
             // 読み込みたいテキストを開く
             using (StreamReader st = new StreamReader(@"../../../TestData/4_2-FrameG.frd"))
             {
-                // テキストファイルをString型で読み込みコンソールに表示
-                String line = st.ReadToEnd();
+                using (ArchiveFile archiveFile = new ArchiveFile(st.BaseStream, SevenZipFormat.Lzh))
+                {
+                    //archiveFile.Extract("Output");
+                    foreach(Entry ent in archiveFile.Entries)
+                    {
+                        string name = ent.FileName;
 
-                // データの読み込み
-                var p = new PrintInput(line);
+                        var compStream = new MemoryStream();
+                        ent.Extract(@"../../../TestData/"+ name);
+                        ent.Extract(compStream);
 
-                p.createPDF();
+                        using (StreamReader st2 = new StreamReader(compStream,false))
+                        {
+                            var a = st2.ReadToEnd();
+                        }
+                    }
+
+                }
 
                 MessageBox.Show("ｵﾜﾀ＼(^o^)／");
             }
+
         }
     }
 }
