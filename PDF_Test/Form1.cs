@@ -33,7 +33,7 @@ namespace GConvert_Test
                         string name = ent.FileName;
 
                         var compStream = new MemoryStream();
-                        ent.Extract(@"../../../TestData/"+ name);
+                        ent.Extract(@"../../../TestData/wdata/"+ name);
                         ent.Extract(compStream);
 
                         using (StreamReader st2 = new StreamReader(compStream,false))
