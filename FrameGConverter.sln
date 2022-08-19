@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrameGConverter", "FrameGCo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDF_Manager", "PDF_Manager\PDF_Manager.csproj", "{77607410-4861-4357-952F-E76A0CACD5C2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDF_Test", "PDF_Test\PDF_Test.csproj", "{8E634F8A-0D17-4FBC-879E-B034497B2C94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Convert_Test", "PDF_Test\Convert_Test.csproj", "{8E634F8A-0D17-4FBC-879E-B034497B2C94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

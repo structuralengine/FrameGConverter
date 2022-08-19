@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PDF_Test
+namespace GConvert_Test
 {
     public partial class Form1 : Form
     {
@@ -47,6 +47,11 @@ namespace PDF_Test
                 MessageBox.Show("ｵﾜﾀ＼(^o^)／");
             }
 
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            button1_Click(sender, null);
         }
     }
 }
