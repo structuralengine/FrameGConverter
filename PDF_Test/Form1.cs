@@ -20,38 +20,76 @@ namespace GConvert_Test
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance); // memo: Shift-JISを扱うためのおまじない
         }
 
+        private void ConvertFRD(string[] FileNames)
+        {
+            var ConvertedList = new List<string>();
+
+            foreach(var fileName in FileNames)
+            {
+                // 拡張子を変更する
+                string newName = Path.ChangeExtension(fileName, ".json");
+
+                // 読み込みたいテキストを開く
+                using (StreamReader st = new StreamReader(fileName))
+                {
+                    var conv = new ConvertManager(st.BaseStream);
+                    SaveFile(newName, conv.getJsonString());
+                    ConvertedList.Add(newName);
+                }
+            }
+            string Message = "変換処理が終わりました";
+            foreach(var s in ConvertedList)
+            {
+                Message += "\n";
+                Message += s;
+            }
+
+            MessageBox.Show(this, Message);
+        }
+
+        private void SaveFile(string filename, string contents)
+        {
+            //'書き込むファイルが既に存在している場合は、上書きする
+            using (var sw = new System.IO.StreamWriter(filename, false, System.Text.Encoding.UTF8))
+            {
+                // resultの内容を書き込む
+                sw.Write(contents);
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            // 読み込みたいテキストを開く
-            using (StreamReader st = new StreamReader(@"../../../TestData/4_2-FrameG.frd"))
+            DialogResult dr = openFileDialog1.ShowDialog();
+            if (dr == System.Windows.Forms.DialogResult.OK)
             {
-                using (ArchiveFile archiveFile = new ArchiveFile(st.BaseStream, SevenZipFormat.Lzh))
-                {
-                    //archiveFile.Extract("Output");
-                    foreach(Entry ent in archiveFile.Entries)
-                    {
-                        string name = ent.FileName;
-
-                        var compStream = new MemoryStream();
-                        ent.Extract(@"../../../TestData/wdata/"+ name);
-                        ent.Extract(compStream);
-
-                        using (StreamReader st2 = new StreamReader(compStream,false))
-                        {
-                            var a = st2.ReadToEnd();
-                        }
-                    }
-
-                }
-
-                MessageBox.Show("ｵﾜﾀ＼(^o^)／");
+                ConvertFRD(openFileDialog1.FileNames);
             }
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        //panel1のDragEnterイベントハンドラ
+        private void panel1_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
         {
-            button1_Click(sender, null);
+            //コントロール内にドラッグされたとき実行される
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                //ドラッグされたデータ形式を調べ、ファイルのときはコピーとする
+                e.Effect = DragDropEffects.Copy;
+            else
+                //ファイル以外は受け付けない
+                e.Effect = DragDropEffects.None;
         }
+
+        //panel1のDragDropイベントハンドラ
+        private void panel1_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            //コントロール内にドロップされたとき実行される
+            //ドロップされたすべてのファイル名を取得する
+            string[] fileName =
+                (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            //ListBoxに追加する
+            ConvertFRD(fileName);
+        }
+
+
     }
 }

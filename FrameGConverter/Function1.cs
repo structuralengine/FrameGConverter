@@ -33,23 +33,23 @@ namespace FramePrintPDF
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
-            // base64をデコード
-            byte[] a = Convert.FromBase64String(requestBody);
-            String stCsvData = Encoding.UTF8.GetString(a);
+            //// base64をデコード
+            //byte[] a = Convert.FromBase64String(requestBody);
+            //String stCsvData = Encoding.UTF8.GetString(a);
 
-            // カンマ区切りで分割して配列に格納する
-            string[] stArrayData = stCsvData.Split(',');
+            //// カンマ区切りで分割して配列に格納する
+            //string[] stArrayData = stCsvData.Split(',');
 
-            // byte 配列に変換する
-            byte[] b = new byte[stArrayData.Length];
-            for (int i = 0; i < stArrayData.Length; i++)
-                b[i] = Convert.ToByte(stArrayData[i]);
+            //// byte 配列に変換する
+            //byte[] b = new byte[stArrayData.Length];
+            //for (int i = 0; i < stArrayData.Length; i++)
+            //    b[i] = Convert.ToByte(stArrayData[i]);
 
-            // gzip解凍
-            String jsonString = Unzip(b);
+            //// gzip解凍
+            //String jsonString = Unzip(b);
 
-            var myPrintInput = new PrintInput(jsonString);
-            string base64str = myPrintInput.getPdfSource();
+            var myPrintInput = new ConvertManager(requestBody);
+            string base64str = "myPrintInput.getPdfSource()";
 
             return new OkObjectResult(base64str);
         }
