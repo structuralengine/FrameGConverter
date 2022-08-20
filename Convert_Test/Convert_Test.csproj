@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties testdata_4test001_1json__JsonSchema="https://appsemble.app/api.json" testdata_4test008_1json__JsonSchema="https://appsemble.app/api.json" /></VisualStudio></ProjectExtensions>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Convert_Manager\Convert_Manager.csproj" />
+  </ItemGroup>
+
+</Project>

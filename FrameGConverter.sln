@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Convert_Manager", "PDF_Manager\Convert_Manager.csproj", "{77607410-4861-4357-952F-E76A0CACD5C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Convert_Manager", "Convert_Manager\Convert_Manager.csproj", "{77607410-4861-4357-952F-E76A0CACD5C2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Convert_Test", "PDF_Test\Convert_Test.csproj", "{8E634F8A-0D17-4FBC-879E-B034497B2C94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Convert_Test", "Convert_Test\Convert_Test.csproj", "{8E634F8A-0D17-4FBC-879E-B034497B2C94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

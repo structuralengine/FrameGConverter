@@ -26,7 +26,30 @@ public class ConvertManager
             }
         }
 
+        // 節点
         result.Add(node.KEY, node.GetElement(wdata));
+        // 支点
+
+        // 部材
+        result.Add(member.KEY, member.GetElement(wdata));
+        // 材料
+
+        // バネ
+
+        // 結合
+
+        // 着目点
+
+        // 荷重
+
+        // 組合せ
+
+        // PickUP
+
+        /// 組み換え処理
+        // 剛域
+
+        // 杭データ
 
     }
 

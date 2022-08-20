@@ -44,7 +44,7 @@ namespace GConvert_Test
                 Message += s;
             }
 
-            MessageBox.Show(this, Message);
+            MessageBox.Show(this, Message,"完了通知");
         }
 
         private void SaveFile(string filename, string contents)
