@@ -33,7 +33,7 @@ public class ConvertManager
         // 部材 と 材料
         var _member = new member(wdata);
         // バネ
-        var fix_member = new fix_member(wdata);
+        var _fix_member = new fix_member(wdata);
         // 結合
 
         // 着目点
@@ -60,6 +60,8 @@ public class ConvertManager
         result.Add(member.KEY, _member.GetMember());
         // 材料
         result.Add(element.KEY, _member.GetElement());
+        // バネ
+        result.Add(fix_member.KEY, _fix_member.GetFixMember());
 
     }
 

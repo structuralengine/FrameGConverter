@@ -17,7 +17,7 @@ namespace Convert_Manager.FrameWebForJS
         public const string KEY = "node";
         private const string wFile = "$1.txt";
 
-        private Dictionary<string, Vector3>  result = new Dictionary<string, Vector3>();
+        private Dictionary<string, Vector3>  NodeList = new Dictionary<string, Vector3>();
 
         public node(Dictionary<string, string> wdata)
         {
@@ -38,14 +38,14 @@ namespace Convert_Manager.FrameWebForJS
                 pos.x = Convert.ToDouble(columns[1]);
                 pos.y = Convert.ToDouble(columns[2]);
 
-                result.Add(columns[0], pos);
+                NodeList.Add(columns[0], pos);
             }
         }
 
 
         public  Dictionary<string, Vector3> GetNode()
         {
-            return result;
+            return NodeList;
         }
     }
 }
