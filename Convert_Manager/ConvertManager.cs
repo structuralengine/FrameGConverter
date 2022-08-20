@@ -27,15 +27,13 @@ public class ConvertManager
         }
 
         // 節点
-        result.Add(node.KEY, node.GetElement(wdata));
+        var _node = new node(wdata);
         // 支点
 
-        // 部材
-        result.Add(member.KEY, member.GetElement(wdata));
-        // 材料
-
+        // 部材 と 材料
+        var _member = new member(wdata);
         // バネ
-
+        var fix_member = new fix_member(wdata);
         // 結合
 
         // 着目点
@@ -46,10 +44,22 @@ public class ConvertManager
 
         // PickUP
 
+
+
         /// 組み換え処理
         // 剛域
 
         // 杭データ
+
+
+
+        /// 書き出し
+        // 節点
+        result.Add(node.KEY, _node.GetNode());
+        // 部材
+        result.Add(member.KEY, _member.GetMember());
+        // 材料
+        result.Add(element.KEY, _member.GetElement());
 
     }
 

@@ -5,35 +5,46 @@ using System.Text;
 
 namespace Convert_Manager.FrameWebForJS
 {
-    static class node
+    public class Vector3
+    {
+        public double x;
+        public double y;
+        public double z;
+    }
+
+    class node
     {
         public const string KEY = "node";
         private const string wFile = "$1.txt";
 
-        public static Dictionary<string, object> GetElement(Dictionary<string, string> wdata)
+        private Dictionary<string, Vector3>  result = new Dictionary<string, Vector3>();
+
+        public node(Dictionary<string, string> wdata)
         {
             if (!wdata.ContainsKey(node.wFile))
-                return null;
-
-            var result = new Dictionary<string, object>();
+                return;
 
             var str = wdata[node.wFile];
             string[] del = { "\r\n" };
             string[] arr = str.Split(del, StringSplitOptions.None);
-            for(int i=1; i<arr.Length; i++)
+            for (int i = 1; i < arr.Length; i++)
             {
                 var columns = arr[i].Split("\t");
 
                 if (columns.Length < 3)
                     continue;
 
-                var pos = new Dictionary<string, double>();
-                pos.Add("x", Convert.ToDouble(columns[1]));
-                pos.Add("y", Convert.ToDouble(columns[2]));
+                var pos = new Vector3();
+                pos.x = Convert.ToDouble(columns[1]);
+                pos.y = Convert.ToDouble(columns[2]);
 
-                result.Add( columns[0], pos );
+                result.Add(columns[0], pos);
             }
+        }
 
+
+        public  Dictionary<string, Vector3> GetNode()
+        {
             return result;
         }
     }
