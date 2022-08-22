@@ -40,6 +40,8 @@ public class ConvertManager
         var _notice_point = new notice_points(wdata);
         // 荷重
         var _load = new load(wdata);
+        // DEFINE
+        var _define = new define(wdata);
         // 組合せ
 
         // PickUP
@@ -70,6 +72,11 @@ public class ConvertManager
         result.Add(joint.KEY, _joint.GetJoint());
         // 荷重
         result.Add(load.KEY, _load.GetLoad());
+        // DEFINE
+        result.Add(define.KEY, _define.GetDefine());
+        // 組合せ
+
+        // PickUP
 
     }
 

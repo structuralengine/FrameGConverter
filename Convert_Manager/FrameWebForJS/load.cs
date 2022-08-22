@@ -163,22 +163,6 @@ namespace Convert_Manager.FrameWebForJS
                     string tmp = comon.byteSubstr(ref str, 3).Trim();
                     var CaseNo = (0 < tmp.Length) ? Convert.ToInt32(tmp) : -1;
 
-                    var key = "nothing";
-                    foreach (var a in tmpLoadList){
-                        if (a.Value.inputCaseNo == CaseNo){
-                            key = a.Key;
-                            break;
-                        }
-                    }
-
-                    if (!tmpLoadList.ContainsKey(key))
-                        continue;
-
-                    var ll = tmpLoadList[key];
-
-                    var ln = new List<LoadNode>(tmpLoadList[key].load_node);
-                    var lm = new List<LoadMember>(tmpLoadList[key].load_member);
-
                     // 要素荷重
                     var fm = new LoadMember();
 
@@ -206,9 +190,6 @@ namespace Convert_Manager.FrameWebForJS
                     tmp = comon.byteSubstr(ref str, 12);
                     fm.direction = tmp.Trim(); // S V M H
 
-                    if(fm.Enable())
-                        lm.Add(fm);
-
                     // 節点荷重
                     var fn = new LoadNode();
 
@@ -224,13 +205,33 @@ namespace Convert_Manager.FrameWebForJS
                     tmp = comon.byteSubstr(ref str, 12).Trim();
                     fn.rz = (0 < tmp.Length) ? Convert.ToDouble(tmp) : 0;
 
-                    if (fn.Enable())
-                        ln.Add(fn);
+                    /// 登録（同じ荷重が複数のケースに登録されることがある）
+                    var keys = new List<string>();
+                    foreach (var a in tmpLoadList){
+                        if (a.Value.inputCaseNo == CaseNo){
+                            keys.Add(a.Key);
+                        }
+                    }
 
-                    // 登録
-                    ll.load_node = ln.ToArray();
-                    ll.load_member = lm.ToArray();
+                    foreach(var key in keys)
+                    {
+                        var ll = tmpLoadList[key];
 
+                        var ln = new List<LoadNode>(tmpLoadList[key].load_node);
+                        var lm = new List<LoadMember>(tmpLoadList[key].load_member);
+
+                        // 要素荷重
+                        if(fm.Enable())
+                            lm.Add(fm);
+
+                        // 節点荷重
+                        if (fn.Enable())
+                            ln.Add(fn);
+
+                        // 登録
+                        ll.load_node = ln.ToArray();
+                        ll.load_member = lm.ToArray();
+                    }
                 }
             }
 
