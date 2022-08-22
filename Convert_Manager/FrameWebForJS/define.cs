@@ -7,29 +7,41 @@ namespace Convert_Manager.FrameWebForJS
     public class Define
     {
         public int row;
-        public Dictionary<string, int> no = new Dictionary<string, int>();
+        public Dictionary<string, int> CaseNumbers = new Dictionary<string, int>();
     }
 
     class define
     {
         public const string KEY = "define";
-        private const string wFile = "Ku_Define2.tmp";
+        private const string wFile1 = "Ku_DefNo.tmp";
+        private const string wFile2 = "Ku_Define2.tmp";
 
         Dictionary<string, Define> DefineList = new Dictionary<string, Define>();
 
         public define(Dictionary<string, string> wdata)
         {
-            if (!wdata.ContainsKey(define.wFile))
-                return;
-
-            var str = wdata[define.wFile];
-            string[] del = { "\r\n" };
-            string[] arr = str.Split(del, StringSplitOptions.None);
-
-            for (int i = 1; i < arr.Length; i++)
+            /// 番号
+            if (wdata.ContainsKey(define.wFile1))
             {
-                var lst1 = arr[i].Split("\t");
+                var str = wdata[define.wFile1];
+                while (str.Length > 9)
+                {
+                    var tmp = comon.byteSubstr(ref str, 10);
+                    var no = (0 < tmp.Length) ? Convert.ToInt32(tmp) : -1;
+
+                }
             }
+
+            /// 内容
+            if (wdata.ContainsKey(define.wFile2))
+            {
+                var str = wdata[define.wFile2];
+
+            }
+
+
+
+
         }
 
 
@@ -41,7 +53,7 @@ namespace Convert_Manager.FrameWebForJS
             {
                 var b = new Dictionary<string, int>();
                 b.Add("row", a.Value.row);
-                foreach(var c in a.Value.no)
+                foreach(var c in a.Value.CaseNumbers)
                 {
                     b.Add(c.Key, c.Value);
                 }
