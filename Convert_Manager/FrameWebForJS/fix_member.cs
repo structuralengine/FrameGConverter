@@ -10,8 +10,8 @@ namespace Convert_Manager.FrameWebForJS
         public string m;   // 部材番号
         public double tx;
         public double ty;
-        public double tz;
-        public double tr;
+        //public double tz;
+        //public double tr;
     }
 
     class fix_member

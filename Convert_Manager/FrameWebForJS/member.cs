@@ -9,7 +9,7 @@ namespace Convert_Manager.FrameWebForJS
         public string ni; // 節点番号
         public string nj;
         public string e;  // 材料番号
-        public double cg; // コードアングル
+        //public double cg; // コードアングル
     }
 
 

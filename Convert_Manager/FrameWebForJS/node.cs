@@ -9,7 +9,7 @@ namespace Convert_Manager.FrameWebForJS
     {
         public double x;
         public double y;
-        public double z;
+        //public double z;
     }
 
     class node

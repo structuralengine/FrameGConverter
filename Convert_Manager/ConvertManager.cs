@@ -29,15 +29,15 @@ public class ConvertManager
         // 節点
         var _node = new node(wdata);
         // 支点
-
+        var _fix_node = new fix_node(wdata);
         // 部材 と 材料
         var _member = new member(wdata);
         // バネ
         var _fix_member = new fix_member(wdata);
         // 結合
-
+        var _joint = new joint(wdata);
         // 着目点
-
+        var _notice_point = new notice_points(wdata);
         // 荷重
 
         // 組合せ
@@ -56,12 +56,18 @@ public class ConvertManager
         /// 書き出し
         // 節点
         result.Add(node.KEY, _node.GetNode());
+        // 支点
+        result.Add(fix_node.KEY, _fix_node.GetFixNode());
         // 部材
         result.Add(member.KEY, _member.GetMember());
         // 材料
         result.Add(element.KEY, _member.GetElement());
+        // 着目点
+        result.Add(notice_points.KEY, _notice_point.GetNoticePoint());
         // バネ
         result.Add(fix_member.KEY, _fix_member.GetFixMember());
+        // 結合
+        result.Add(joint.KEY, _joint.GetJoint());
 
     }
 

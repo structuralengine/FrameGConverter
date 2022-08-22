@@ -11,7 +11,7 @@ namespace Convert_Manager.FrameWebForJS
         public double Xp;
         public double A;
         // public double J;
-        public double Iy;
+        //public double Iy;
         public double Iz;
         public string name;
 
@@ -19,7 +19,7 @@ namespace Convert_Manager.FrameWebForJS
         [NonSerialized]
         public string mark;
         [NonSerialized]
-        public double n;
+        public double n; // 部材数
     }
 
     class element
