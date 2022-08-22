@@ -246,6 +246,21 @@ namespace Convert_Manager.FrameWebForJS
         {
 
             LoadList = tmpLoadList;
+
+            // row に入力する
+            foreach(var a in LoadList)
+            {
+                var b = a.Value.load_member;
+                for (var i=0; i<b.Length; i++)
+                {
+                    b[i].row = i + 1;
+                }
+                var c = a.Value.load_node;
+                for (var i = 0; i < c.Length; i++)
+                {
+                    c[i].row = i + 1;
+                }
+            }
         }
 
 
