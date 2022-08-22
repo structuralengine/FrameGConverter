@@ -39,7 +39,7 @@ public class ConvertManager
         // 着目点
         var _notice_point = new notice_points(wdata);
         // 荷重
-
+        var _load = new load(wdata);
         // 組合せ
 
         // PickUP
@@ -68,6 +68,8 @@ public class ConvertManager
         result.Add(fix_member.KEY, _fix_member.GetFixMember());
         // 結合
         result.Add(joint.KEY, _joint.GetJoint());
+        // 荷重
+        result.Add(load.KEY, _load.GetLoad());
 
     }
 
