@@ -43,7 +43,7 @@ public class ConvertManager
         // DEFINE
         var _define = new define(wdata);
         // 組合せ
-
+        var _combine = new combine(wdata);
         // PickUP
 
 
@@ -73,8 +73,9 @@ public class ConvertManager
         // 荷重
         result.Add(load.KEY, _load.GetLoad());
         // DEFINE
-        result.Add(define.KEY, _define.GetDefine());
+        result.Add(define.KEY, _define.GetDefine()); 
         // 組合せ
+        result.Add(combine.KEY, _combine.GetCombine());
 
         // PickUP
 
