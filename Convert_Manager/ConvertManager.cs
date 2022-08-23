@@ -45,6 +45,7 @@ public class ConvertManager
         // 組合せ
         var _combine = new combine(wdata);
         // PickUP
+        var _pickup = new pickup(wdata);
 
 
 
@@ -76,8 +77,8 @@ public class ConvertManager
         result.Add(define.KEY, _define.GetDefine()); 
         // 組合せ
         result.Add(combine.KEY, _combine.GetCombine());
-
         // PickUP
+        result.Add(pickup.KEY, _pickup.GetPickup());
 
     }
 
