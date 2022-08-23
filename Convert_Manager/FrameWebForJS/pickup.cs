@@ -13,8 +13,8 @@ namespace Convert_Manager.FrameWebForJS
     class pickup
     {
         public const string KEY = "pickup";
-        private const string wFile1 = "Ku_DefNo.tmp";
-        private const string wFile2 = "Ku_Pickup2.tmp";
+        private const string wFile1 = "PickUp.tmp";
+        private const string wFile2 = "PickUpName.tmp";
 
         Dictionary<string, Pickup> PickupList = new Dictionary<string, Pickup>();
 
