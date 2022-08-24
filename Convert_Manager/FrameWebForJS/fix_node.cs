@@ -21,7 +21,7 @@ namespace Convert_Manager.FrameWebForJS
 
     }
 
-    class fix_node
+    public class fix_node
     {
         public const string KEY = "fix_node";
         private const string wFile2 = "$2.txt"; // 支点の個数

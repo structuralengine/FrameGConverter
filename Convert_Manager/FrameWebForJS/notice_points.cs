@@ -13,7 +13,7 @@ namespace Convert_Manager.FrameWebForJS
         public double[] Points;
     }
 
-    class notice_points
+    public class notice_points
     {
         public const string KEY = "notice_points";
         private const string wFile = "Chakumoku.tmp";

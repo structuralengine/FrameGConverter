@@ -14,7 +14,7 @@ namespace Convert_Manager.FrameWebForJS
         //public double tr;
     }
 
-    class fix_member
+    public class fix_member
     {
         public const string KEY = "fix_member";
         private const string wFile = "B_Bane.tmp";

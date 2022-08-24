@@ -12,7 +12,7 @@ namespace Convert_Manager.FrameWebForJS
         //public double z;
     }
 
-    class node
+    public class node
     {
         public const string KEY = "node";
         private const string wFile = "$1.txt";

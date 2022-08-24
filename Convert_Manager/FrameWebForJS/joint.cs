@@ -17,7 +17,7 @@ namespace Convert_Manager.FrameWebForJS
         public int zj;
     }
 
-    class joint
+    public class joint
     {
         public const string KEY = "joint";
         private const string wFile = "B_Ketugou.tmp";

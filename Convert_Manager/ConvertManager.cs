@@ -12,6 +12,31 @@ public class ConvertManager
 
     private Dictionary<string, object> result = new Dictionary<string, object>();
 
+
+    // 節点
+    public node _node;
+    // 支点
+    public fix_node _fix_node;
+    // 部材 と 材料
+    public member _member;
+    // バネ
+    public fix_member _fix_member;
+    // 結合
+    public joint _joint;
+    // 着目点
+    public notice_points _notice_point;
+    // 荷重
+    public load _load;
+    // DEFINE
+    public define _define;
+    // 組合せ
+    public combine _combine;
+    // PickUP
+    public pickup _pickup;
+    // 剛域
+    public gouiki _gouiki;
+
+
     public ConvertManager(Stream BaseStream)
     {
 
@@ -27,31 +52,31 @@ public class ConvertManager
         }
 
         // 節点
-        var _node = new node(wdata);
+        _node = new node(wdata);
         // 支点
-        var _fix_node = new fix_node(wdata);
+        _fix_node = new fix_node(wdata);
         // 部材 と 材料
-        var _member = new member(wdata);
+        _member = new member(wdata);
         // バネ
-        var _fix_member = new fix_member(wdata);
+        _fix_member = new fix_member(wdata);
         // 結合
-        var _joint = new joint(wdata);
+        _joint = new joint(wdata);
         // 着目点
-        var _notice_point = new notice_points(wdata);
+        _notice_point = new notice_points(wdata);
         // 荷重
-        var _load = new load(wdata);
+        _load = new load(wdata);
         // DEFINE
-        var _define = new define(wdata);
+        _define = new define(wdata);
         // 組合せ
-        var _combine = new combine(wdata);
+        _combine = new combine(wdata);
         // PickUP
-        var _pickup = new pickup(wdata);
+        _pickup = new pickup(wdata);
 
 
 
         /// 組み換え処理
         // 剛域
-
+        _gouiki = new gouiki(wdata);
         // 杭データ
 
 
@@ -62,9 +87,9 @@ public class ConvertManager
         // 支点
         result.Add(fix_node.KEY, _fix_node.GetFixNode());
         // 部材
-        result.Add(member.KEY, _member.GetMember());
+        result.Add(member.mKEY, _member.GetMember());
         // 材料
-        result.Add(element.KEY, _member.GetElement());
+        result.Add(element.eKEY, _member.GetElement());
         // 着目点
         result.Add(notice_points.KEY, _notice_point.GetNoticePoint());
         // バネ

@@ -78,7 +78,7 @@ namespace Convert_Manager.FrameWebForJS
     }
 
 
-    class load
+    public class load
     {
         public const string KEY = "load";
         private const string wFile = "K_JituBuzai.tmp";     // 実荷重強度

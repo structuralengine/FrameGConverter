@@ -10,7 +10,7 @@ namespace Convert_Manager.FrameWebForJS
         public Dictionary<string, int> CaseNumbers = new Dictionary<string, int>();
     }
 
-    class define
+    public class define
     {
         public const string KEY = "define";
         private const string wFile1 = "Ku_DefNo.tmp";

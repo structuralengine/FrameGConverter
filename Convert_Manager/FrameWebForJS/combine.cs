@@ -10,7 +10,7 @@ namespace Convert_Manager.FrameWebForJS
         public Dictionary<string, double> coef = new Dictionary<string, double>();
     }
 
-    class combine
+    public class combine
     {
         public const string KEY = "combine";
         private const string wFile1 = "Ku_Combine.tmp";

@@ -22,9 +22,9 @@ namespace Convert_Manager.FrameWebForJS
         public double n; // 部材数
     }
 
-    class element
+    public class element
     {
-        public const string KEY = "element";
+        public const string eKEY = "element";
 
         protected Dictionary<string, Dictionary<string, Element>> ElementList = new Dictionary<string, Dictionary<string, Element>>();
 

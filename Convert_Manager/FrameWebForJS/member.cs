@@ -13,14 +13,14 @@ namespace Convert_Manager.FrameWebForJS
     }
 
 
-    class member : element
+    public class member : element
     {
-        public const string KEY = "member";
+        public const string mKEY = "member";
         private const string wFile = "Buzai.tmp";
 
         private Dictionary<string, Member> MemberList = new Dictionary<string, Member>();
 
-
+        public string message = "";
         public member(Dictionary<string, string> wdata)
         {
             if (!wdata.ContainsKey(member.wFile))
@@ -96,6 +96,8 @@ namespace Convert_Manager.FrameWebForJS
 
                 ee.Add(new object[8] { No, mark, name, n, E, Xp, A, Iz });
 
+                if (name.Contains('杭'))
+                    message = "杭バネ入力情報の変換は対応していません";
             }
 
             // 材料集計

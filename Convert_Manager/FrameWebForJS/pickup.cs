@@ -10,7 +10,7 @@ namespace Convert_Manager.FrameWebForJS
         public Dictionary<string, int> com = new Dictionary<string, int>();
     }
 
-    class pickup
+    public class pickup
     {
         public const string KEY = "pickup";
         private const string wFile1 = "PickUp.tmp";

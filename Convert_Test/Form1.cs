@@ -1,4 +1,5 @@
-﻿using SevenZipExtractor;
+﻿using Convert_Test;
+using SevenZipExtractor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,7 +23,7 @@ namespace GConvert_Test
 
         private void ConvertFRD(string[] FileNames)
         {
-            var ConvertedList = new List<string>();
+            var ConvertedList = new List<resultMessage>();
 
             foreach(var fileName in FileNames)
             {
@@ -34,17 +35,31 @@ namespace GConvert_Test
                 {
                     var conv = new ConvertManager(st.BaseStream);
                     SaveFile(newName, conv.getJsonString());
-                    ConvertedList.Add(newName);
+
+                    var rM = new resultMessage();
+                    rM.filename = newName;
+
+                    if (conv._member.message.Length > 0)
+                        rM.message.Add(conv._member.message);
+
+                    if (conv._joint.message.Length > 0)
+                        rM.message.Add(conv._joint.message);
+
+                    if (conv._gouiki.message.Length > 0)
+                        rM.message.Add(conv._gouiki.message);
+
+                    if (conv._load.message.Length > 0)
+                        rM.message.Add(conv._load.message);
+
+                    ConvertedList.Add(rM);
                 }
             }
-            string Message = "変換処理が終わりました";
-            foreach(var s in ConvertedList)
-            {
-                Message += "\n";
-                Message += s;
-            }
 
-            MessageBox.Show(this, Message,"完了通知");
+            // 終了ダイアログ
+            var f2 = new Form2(ConvertedList);
+
+            f2.ShowDialog();
+            f2.Dispose();
         }
 
         private void SaveFile(string filename, string contents)
@@ -90,6 +105,9 @@ namespace GConvert_Test
             ConvertFRD(fileName);
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
 
+        }
     }
 }
