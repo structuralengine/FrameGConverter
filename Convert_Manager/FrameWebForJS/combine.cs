@@ -34,7 +34,7 @@ namespace Convert_Manager.FrameWebForJS
             {
                 // 全体の割り増し係数
                 var tmp = comon.byteSubstr(ref str1, 10).Trim();
-                var coef0 = Convert.ToDouble(tmp);
+                var coef0 = (0 < tmp.Length) ? Convert.ToDouble(tmp): 1;
                 
                 // 組合せ名称
                 string str = comon.byteSubstr(ref str2, 5);

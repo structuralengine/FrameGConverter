@@ -56,17 +56,17 @@ namespace Convert_Manager.FrameWebForJS
                 for (int i = 0; i < 16; i++)
                 {
                     JO[i] = new Joint() { m = No };
-                    tmp = comon.byteSubstr(ref str, 1);
+                    tmp = comon.byteSubstr(ref str, 1).Trim();
                     var xi = (0 < tmp.Length) ? Convert.ToInt32(tmp) : 1;
-                    tmp = comon.byteSubstr(ref str, 1);
+                    tmp = comon.byteSubstr(ref str, 1).Trim();
                     var yi = (0 < tmp.Length) ? Convert.ToInt32(tmp) : 1;
-                    tmp = comon.byteSubstr(ref str, 1);
+                    tmp = comon.byteSubstr(ref str, 1).Trim();
                     JO[i].zi = (0 < tmp.Length) ? Convert.ToInt32(tmp) : -1;
-                    tmp = comon.byteSubstr(ref str, 1);
+                    tmp = comon.byteSubstr(ref str, 1).Trim();
                     var xj = (0 < tmp.Length) ? Convert.ToInt32(tmp) : 1;
-                    tmp = comon.byteSubstr(ref str, 1);
+                    tmp = comon.byteSubstr(ref str, 1).Trim();
                     var yj = (0 < tmp.Length) ? Convert.ToInt32(tmp) : 1;
-                    tmp = comon.byteSubstr(ref str, 1);
+                    tmp = comon.byteSubstr(ref str, 1).Trim();
                     JO[i].zj = (0 < tmp.Length) ? Convert.ToInt32(tmp) : -1;
 
                     if (xi*yi*xj*yj == 0) { 
