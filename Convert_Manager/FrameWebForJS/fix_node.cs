@@ -50,9 +50,13 @@ namespace Convert_Manager.FrameWebForJS
 
                 var row = Convert.ToInt32(lst1[0]);
                 var No = lst1[1];
-                var count = Convert.ToDouble(lst1[2]);
-                if (count == Double.NaN) count = 1;
-                if (count == 0) count = 1;
+                double count = 1;
+                if (lst1[2].Trim().Length > 0)
+                {
+                    count = Convert.ToDouble(lst1[2]);
+                    if (count == Double.NaN) count = 1;
+                    if (count == 0) count = 1;
+                }
 
                 fn_base.Add(new FixNode() { row = row, n = No, count = count });
             }
