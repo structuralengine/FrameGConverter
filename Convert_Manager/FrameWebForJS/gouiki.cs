@@ -126,7 +126,7 @@ namespace Convert_Manager.FrameWebForJS
                     continue;
 
                 string eNo = _member.GetElementNo(m.e, g.Value.A, g.Value.I);
-                if (mLength < Distance[i])
+                if (mLength <= Distance[i])
                 { // もし、部材長さより剛域長さの方が長かったら諸元の変更だけにする
                     m.e = eNo;
                     if (i == 0) 
