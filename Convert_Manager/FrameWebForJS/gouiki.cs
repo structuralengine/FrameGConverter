@@ -219,7 +219,7 @@ namespace Convert_Manager.FrameWebForJS
             _joint.addNewMember(old_mNo);
 
             // 部材荷重を二分割された部材に置き換える
-            // _load.addNewMember(newMember);
+            _load.addNewMember(newMember, _node, _member);
 
         }
 

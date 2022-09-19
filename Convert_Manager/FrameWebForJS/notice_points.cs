@@ -88,6 +88,7 @@ namespace Convert_Manager.FrameWebForJS
             return noticepoints;
         }
 
+
         /// <summary>
         /// 分割した部材に合わせて着目点を修正する
         /// </summary>
@@ -149,5 +150,6 @@ namespace Convert_Manager.FrameWebForJS
 
             this.noticepoints = temp;
         }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Convert_Manager.FrameWebForJS
@@ -228,6 +229,81 @@ namespace Convert_Manager.FrameWebForJS
         }
 
 
+        /// <summary>
+        /// 分割した部材に合わせて着目点を修正する
+        /// </summary>
+        /// <param name="newMember"></param>
+        internal void addNewMember(Dictionary<string, Member> newMember, node _node, member _member)
+        {
+            // 分割前の要素
+            var k1 = newMember.First();
+            var i1 = Convert.ToInt32(k1.Key);
+            var len1 = k1.Value.Length(_node);
+
+            // 分割後の要素
+            var k2 = newMember.Last();
+            var i2 = Convert.ToInt32(k2.Key);
+            var len2 = k2.Value.Length(_node);
+
+
+            // 分割した部材に合わせて着目点を修正する
+            var temp1 = new Dictionary<string, Load>();
+            foreach (var lo1 in this.LoadList)
+            {
+                // 要素荷重以外を複製
+                var temp2 = new Load()
+                {
+                    fix_node = lo1.Value.fix_node,
+                    fix_member = lo1.Value.fix_member,
+                    element    = lo1.Value.element,
+                    joint      = lo1.Value.joint,     
+                    symbol      = lo1.Value.symbol,
+                    LL_pitch    = lo1.Value.LL_pitch,
+                    rate        = lo1.Value.rate,   
+                    name        = lo1.Value.name,    
+                    load_node   = lo1.Value.load_node,
+                    inputCaseNo = lo1.Value.inputCaseNo
+                };
+
+                var load_member = new List<LoadMember>();
+
+                foreach (var lo2 in lo1.Value.load_member)
+                {
+                    int m1 = Convert.ToInt32(lo2.m1);
+                    int m2 = 0;
+                    int.TryParse(lo2.m2, out m2);
+                    int a2 = Math.Abs(m2);
+                    int c2 = Math.Sign(m2);
+
+                    if (i1 < m1 && i1 < a2)
+                    {   // 分割前の要素より大きい部材番号の場合
+                        lo2.m1 = (m1 + 1).ToString();
+                        lo2.m2 = (c2 * (a2 + 1)).ToString();
+                    }
+                    else if (i1 <= a2)
+                    {   // 末尾の部材だけ分割前の要素より大きい部材番号の場合
+                        lo2.m2 = (c2 * (a2 + 1)).ToString();
+                    }
+                    else if (i1 == m1)
+                    {   // 先頭の部材が分割対象部材と一致している場合、末尾に要素を付ける
+                        lo2.m2 = (-1 * (m1 + 1)).ToString();
+                    }
+                    else if (i1 < m1)
+                    {
+                        lo2.m1 = (m1 + 1).ToString();
+                    }
+
+                   load_member.Add(lo2);
+                }
+
+                temp2.load_member = load_member.ToArray();
+                temp1.Add(lo1.Key, temp2);
+            }
+            this.LoadList = temp1;
+        }
+
+
+
 
         /// <summary>
         /// 荷重強度の読み込み
@@ -325,6 +401,8 @@ namespace Convert_Manager.FrameWebForJS
                 }
             }
         }
+
+
 
         /// <summary>
         /// 荷重名称の読み込み
