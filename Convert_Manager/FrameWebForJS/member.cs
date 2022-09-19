@@ -10,6 +10,19 @@ namespace Convert_Manager.FrameWebForJS
         public string nj;
         public string e;  // 材料番号
         //public double cg; // コードアングル
+
+        // 部材の長さを計算する
+        public double Length(node _node)
+        {
+            var vi = _node.GetNode(this.ni);
+            var vj = _node.GetNode(this.nj);
+
+            if (vi == null || vj == null)
+                return 0;
+
+            return vi.Distance(vj);
+
+        }
     }
 
 
@@ -111,7 +124,63 @@ namespace Convert_Manager.FrameWebForJS
             return MemberList;
         }
 
+        public Member getMember(string No)
+        {
+            if (!MemberList.ContainsKey(No))
+                return null;
+            return MemberList[No];
+        }
 
+        /// <summary>
+        /// old_mNo部材を 節点 new_nNo で２分割して i端側の材料を i_eNo とし j端側の材料を j_eNo とする
+        /// 以降の部材番号をずらす
+        /// </summary>
+        /// <param name="old_mNo"></param>
+        /// <param name="key"></param>
+        /// <param name="i_eNo"></param>
+        /// <param name="j_eNo"></param>
+        /// <returns></returns>
+        internal Dictionary<string, Member> addNewMember(string old_mNo, string new_nNo, string i_eNo, string j_eNo)
+        {
+            var result = new Dictionary<string, Member>();
+
+            int old_iNo = Convert.ToInt32(old_mNo);
+            int new_iNo = Convert.ToInt32(new_nNo);
+            var flg = false;
+
+            var temp = new Dictionary<string, Member>();
+            foreach (var m in this.MemberList)
+            {
+                var me = m.Value;
+                int ini = Convert.ToInt32(me.ni);
+                int inj = Convert.ToInt32(me.nj);
+                if (new_iNo <= ini)
+                    me.ni = (ini + 1).ToString();
+                if (new_iNo <= inj)
+                    me.nj = (inj + 1).ToString();
+
+                var k = Convert.ToInt32(m.Key);
+                if (old_iNo <= k)
+                {
+                    k += 1;
+                    if (flg == false)
+                    {   // ２分割
+                        var iM = new Member() { ni = me.ni, nj = new_nNo, e = i_eNo };
+                        var jM = new Member() { ni = new_nNo, nj = me.nj, e = j_eNo };
+                        temp.Add(old_mNo, iM);
+                        result.Add(old_mNo, iM);
+                        result.Add(k.ToString(), jM);
+                        me = jM;
+                        flg = true;
+                    }
+                }
+                temp.Add(k.ToString(), me);
+            }
+
+            this.MemberList = temp;
+
+            return result;
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Convert_Manager.FrameWebForJS
@@ -32,6 +33,7 @@ namespace Convert_Manager.FrameWebForJS
         {
             return ElementList;
         }
+
 
         public void setElementList(List<object[]> ee)
         {
@@ -72,6 +74,64 @@ namespace Convert_Manager.FrameWebForJS
                     this.ElementList.Add((j + 1).ToString(), eee);
             }
 
+        }
+
+        /// <summary>
+        /// 同じ数値の諸元を探して 材料番号を返す.
+        /// 無ければ新しい諸元を生成して 新No を返す.
+        /// </summary>
+        /// <returns></returns>
+        internal string GetElementNo(string eNo, double A, double Iz)
+        {
+            var Targets = new Dictionary<string, Element>();
+            int maxNo = -1;
+
+            foreach (var e1 in this.ElementList)
+            {
+                var eNoe = e1.Value[eNo];
+                foreach (var e2 in e1.Value)
+                {
+                    if (eNoe.E == e2.Value.E && e2.Value.A == A && e2.Value.Iz == Iz
+                         && eNoe.Xp == e2.Value.Xp) 
+                    {   // 諸元が同じ
+                        if (!Targets.ContainsKey(e2.Key))
+                        {   // まだ登録が無ければ
+                            Targets.Add(e2.Key, e2.Value); // 追加する
+                        }
+                    }
+                    else if (Targets.ContainsKey(e2.Key)) { 
+                        // 既に登録済で諸元が異なっていたら
+                        Targets.Remove(e2.Key); // 削除する
+                    }
+
+                    // 最大の材料番号を調べる
+                    var iNo = Convert.ToInt32(e2.Key);
+                    if (maxNo < iNo)
+                        maxNo = iNo;
+                }
+            }
+
+            var k = Targets.First();
+            if (Targets.Count > 0)
+            {   // 最初の要素を取得
+                return k.Key;
+            }
+
+
+            // もし既に登録済の諸元になかったら新しい諸元を追加する
+            string newNo = (maxNo + 1).ToString();
+            foreach (var e1 in this.ElementList)
+            {
+                e1.Value.Add(newNo,
+                    new Element() { 
+                        E = k.Value.E,
+                        A = A,
+                        Iz = Iz,
+                        Xp = k.Value.Xp,
+                        name = "剛域"
+                    });
+            }
+            return newNo;
         }
     }
 }

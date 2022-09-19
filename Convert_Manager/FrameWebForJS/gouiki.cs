@@ -59,15 +59,140 @@ namespace Convert_Manager.FrameWebForJS
                 i++;
             }
 
-            foreach(var line in GouikiList)
+        }
+
+        /// <summary>
+        /// 剛域で部材を分割する
+        /// </summary>
+        internal void exChange( node _node,
+                                member _member, 
+                                fix_node _fix_node, 
+                                fix_member _fix_member, 
+                                joint _joint, 
+                                notice_points _notice_point, 
+                                load _load)
+        {
+            var InputData = new Dictionary<string, object>()
+            {
+                { "node",  _node },
+                { "member", _member },
+                { "fix_node", _fix_node },
+                { "fix_member", _fix_member },
+                { "joint", _joint },
+                { "notice_points", _notice_point },
+                { "load", _load }
+            };
+
+            foreach (var line in GouikiList)
             {
                 var g = line.Value;
-                if(g.iDistance != 0 || g.jDistance != 0)
+                if (g.iDistance != 0 || g.jDistance != 0)
                 {
-                    message = "剛域を有するデータの変換は対応していません。";
+                    // 剛域で部材を分割します
+                    this.SepalateMember(line, InputData);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// 剛域で部材を分割します
+        /// </summary>
+        /// <param name="inputData"></param>
+        private void SepalateMember(KeyValuePair<string, Gouiki> g,
+                                    Dictionary<string, object> inputData)
+        {
+            bool flg = true;
+
+            while (flg)
+            {
+                flg = false;
+
+                node _node = (node)inputData["node"];
+                member _member = (member)inputData["member"];
+
+                // ターゲットの部材番号
+                string mNo = g.Key;
+
+                Member m = _member.getMember(mNo);
+                double mLength = m.Length(_node);
+
+                double[] Distance = new double[] { g.Value.iDistance, g.Value.jDistance };
+                for (var i = 0; i < Distance.Length; i++)
+                {
+                    if (Distance[i] == 0)
+                        continue;
+
+                    string eNo = _member.GetElementNo(m.e, g.Value.A, g.Value.I);
+                    if (mLength < Distance[i])
+                    { // もし、部材長さより剛域長さの方が長かったら諸元の変更だけにする
+                        m.e = eNo;
+                        if (i == 0) 
+                            g.Value.iDistance = 0; 
+                        else 
+                            g.Value.jDistance = 0;
+                        flg = true;
+                        break;
+                    }
+
+                    if(i == 0)
+                    {   // i端から
+                        this.Split(mNo, Distance[i], eNo, m.e, inputData);
+                        g.Value.iDistance = 0;
+                    }
+                    else
+                    {   // j端から
+                        this.Split(mNo, mLength - Distance[i], m.e, eNo, inputData);
+                        g.Value.jDistance = 0;
+                    }
+                    flg = true;
                     break;
                 }
             }
+
+        }
+
+        /// <summary>
+        /// メンバーをi端から Distanceの位置で分割する
+        /// </summary>
+        /// <param name="old_mNo">分割する対象要素番号</param>
+        /// <param name="Distance">i端からの距離</param>
+        /// <param name="i_eNo">i端側の材料番号</param>
+        /// <param name="j_eNo">j端側の材料番号</param>
+        private void Split( string old_mNo, double Distance,
+                            string i_eNo, string j_eNo,
+                            Dictionary<string, object> inputData)
+        {
+            node _node = (node)inputData["node"];
+            member _member = (member)inputData["member"];
+            fix_node _fix_node = (fix_node)inputData["fix_node"];
+            fix_member _fix_member = (fix_member)inputData["fix_member"];
+            joint _joint = (joint)inputData["joint"];
+            notice_points _notice_point = (notice_points)inputData["notice_points"];
+            load _load = (load)inputData["load"];
+
+            // ターゲットの部材情報
+            Member old_m = _member.getMember(old_mNo);
+            string old_i = old_m.ni;
+            string old_j = old_m.nj;   // 分割前の j端 の節点番号
+
+            // 新しい節点番号を追加する
+            var newNode = _node.addNewNode(old_i, old_j, Distance);
+
+            // 支点を新しい節点番号に置き換える
+
+            // 節点荷重を新しい節点番号に置き換える
+
+            // 部材を二分割する
+            var newMember = _member.addNewMember(old_mNo, newNode.Key, i_eNo, j_eNo);
+
+            // 着目点をを二分割された部材に置き換える
+
+            // 結合条件を二分割された部材に置き換える
+
+            // バネを二分割された部材に置き換える
+
+            // 部材荷重を二分割された部材に置き換える
 
 
         }

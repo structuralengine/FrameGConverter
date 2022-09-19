@@ -77,6 +77,8 @@ public class ConvertManager
         /// 組み換え処理
         // 剛域
         _gouiki = new gouiki(wdata);
+        _gouiki.exChange(_node, _member, _fix_node, _fix_member, 
+                            _joint, _notice_point, _load);
         // 杭データ
 
 
