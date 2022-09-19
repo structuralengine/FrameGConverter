@@ -111,23 +111,23 @@ namespace Convert_Manager.FrameWebForJS
                 }
             }
 
-            var k = Targets.First();
             if (Targets.Count > 0)
             {   // 最初の要素を取得
-                return k.Key;
+                return Targets.First().Key;
             }
 
 
             // もし既に登録済の諸元になかったら新しい諸元を追加する
+            Element eNee = this.ElementList.First().Value[eNo];
             string newNo = (maxNo + 1).ToString();
             foreach (var e1 in this.ElementList)
             {
                 e1.Value.Add(newNo,
                     new Element() { 
-                        E = k.Value.E,
+                        E = eNee.E,
                         A = A,
                         Iz = Iz,
-                        Xp = k.Value.Xp,
+                        Xp = eNee.Xp,
                         name = "剛域"
                     });
             }

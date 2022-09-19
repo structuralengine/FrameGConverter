@@ -83,13 +83,19 @@ namespace Convert_Manager.FrameWebForJS
                 { "load", _load }
             };
 
-            foreach (var line in GouikiList)
+            bool flg = true;
+            while (flg)
             {
-                var g = line.Value;
-                if (g.iDistance != 0 || g.jDistance != 0)
+                flg = false;
+                foreach (var line in GouikiList)
                 {
-                    // 剛域で部材を分割します
-                    this.SepalateMember(line, InputData);
+                    var g = line.Value;
+                    if (g.iDistance != 0 || g.jDistance != 0)
+                    {
+                        // 剛域で部材を分割します
+                        flg = this.SepalateMember(line, InputData);
+                        break;
+                    }
                 }
             }
 
@@ -99,57 +105,52 @@ namespace Convert_Manager.FrameWebForJS
         /// 剛域で部材を分割します
         /// </summary>
         /// <param name="inputData"></param>
-        private void SepalateMember(KeyValuePair<string, Gouiki> g,
+        private Boolean SepalateMember(KeyValuePair<string, Gouiki> g,
                                     Dictionary<string, object> inputData)
         {
-            bool flg = true;
+            bool result = false;
 
-            while (flg)
+            node _node = (node)inputData["node"];
+            member _member = (member)inputData["member"];
+
+            // ターゲットの部材番号
+            string mNo = g.Key;
+
+            Member m = _member.getMember(mNo);
+            double mLength = m.Length(_node);
+
+            double[] Distance = new double[] { g.Value.iDistance, g.Value.jDistance };
+            for (var i = 0; i < Distance.Length; i++)
             {
-                flg = false;
+                if (Distance[i] <= 0)
+                    continue;
 
-                node _node = (node)inputData["node"];
-                member _member = (member)inputData["member"];
-
-                // ターゲットの部材番号
-                string mNo = g.Key;
-
-                Member m = _member.getMember(mNo);
-                double mLength = m.Length(_node);
-
-                double[] Distance = new double[] { g.Value.iDistance, g.Value.jDistance };
-                for (var i = 0; i < Distance.Length; i++)
-                {
-                    if (Distance[i] == 0)
-                        continue;
-
-                    string eNo = _member.GetElementNo(m.e, g.Value.A, g.Value.I);
-                    if (mLength < Distance[i])
-                    { // もし、部材長さより剛域長さの方が長かったら諸元の変更だけにする
-                        m.e = eNo;
-                        if (i == 0) 
-                            g.Value.iDistance = 0; 
-                        else 
-                            g.Value.jDistance = 0;
-                        flg = true;
-                        break;
-                    }
-
-                    if(i == 0)
-                    {   // i端から
-                        this.Split(mNo, Distance[i], eNo, m.e, inputData);
-                        g.Value.iDistance = 0;
-                    }
-                    else
-                    {   // j端から
-                        this.Split(mNo, mLength - Distance[i], m.e, eNo, inputData);
+                string eNo = _member.GetElementNo(m.e, g.Value.A, g.Value.I);
+                if (mLength < Distance[i])
+                { // もし、部材長さより剛域長さの方が長かったら諸元の変更だけにする
+                    m.e = eNo;
+                    if (i == 0) 
+                        g.Value.iDistance = 0; 
+                    else 
                         g.Value.jDistance = 0;
-                    }
-                    flg = true;
+                    result = true;
                     break;
                 }
-            }
 
+                if(i == 0)
+                {   // i端から
+                    g.Value.iDistance = 0;
+                    this.Split(mNo, Distance[i], eNo, m.e, inputData);
+                }
+                else
+                {   // j端から
+                    g.Value.jDistance = 0;
+                    this.Split(mNo, mLength - Distance[i], m.e, eNo, inputData);
+                }
+                result = true;
+                break;
+            }
+            return result;
         }
 
         /// <summary>
@@ -180,21 +181,47 @@ namespace Convert_Manager.FrameWebForJS
             var newNode = _node.addNewNode(old_i, old_j, Distance);
 
             // 支点を新しい節点番号に置き換える
+            _fix_node.addNewNode(newNode.Key);
 
             // 節点荷重を新しい節点番号に置き換える
+            _load.addNewNode(newNode.Key);
+
+
 
             // 部材を二分割する
             var newMember = _member.addNewMember(old_mNo, newNode.Key, i_eNo, j_eNo);
 
-            // 着目点をを二分割された部材に置き換える
-
-            // 結合条件を二分割された部材に置き換える
+            // 剛域の部材番号を二分割された部材に置き換える
+            int old_iNo = Convert.ToInt32(old_mNo);
+            var temp = new Dictionary<string, Gouiki>();
+            foreach (var g in this.GouikiList)
+            {
+                var k = Convert.ToInt32(g.Key);
+                if (old_iNo <= k)
+                {
+                    if (g.Key == old_mNo)
+                    {   // 二分割された部材
+                        temp.Add(g.Key, g.Value);
+                    }
+                    k += 1;
+                }
+                temp.Add(k.ToString(), g.Value);
+            }
+            this.GouikiList = temp;
 
             // バネを二分割された部材に置き換える
+            _fix_member.addNewMember(old_mNo);
+
+            // 着目点を二分割された部材に置き換える
+            _notice_point.addNewMember(newMember, _node, _member);
+
+            // 結合条件を二分割された部材に置き換える
+            _joint.addNewMember(old_mNo);
 
             // 部材荷重を二分割された部材に置き換える
-
+            // _load.addNewMember(newMember);
 
         }
+
     }
 }

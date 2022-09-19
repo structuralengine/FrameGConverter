@@ -204,6 +204,29 @@ namespace Convert_Manager.FrameWebForJS
 
         }
 
+        
+        /// <summary>
+        /// nNo 以上の節点番号を+1する
+        /// </summary>
+        /// <param name="nNo"></param>
+        internal void addNewNode(string nNo)
+        {
+            int iNo = Convert.ToInt32(nNo);
+            foreach (var lo1 in this.LoadList)
+            {
+                foreach (var lo2 in lo1.Value.load_node)
+                {
+                    int k = Convert.ToInt32(lo2.n);
+                    if (iNo <= k)
+                    {
+                        lo2.n = (k + 1).ToString();
+                    }
+
+                }
+
+            }
+        }
+
 
 
         /// <summary>

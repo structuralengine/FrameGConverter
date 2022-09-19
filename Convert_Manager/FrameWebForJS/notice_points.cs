@@ -87,5 +87,67 @@ namespace Convert_Manager.FrameWebForJS
         {
             return noticepoints;
         }
+
+        /// <summary>
+        /// 分割した部材に合わせて着目点を修正する
+        /// </summary>
+        /// <param name="newMember"></param>
+        internal void addNewMember(Dictionary<string, Member> newMember, node _node, member _member)
+        {
+            // 分割前の要素
+            var k1 = newMember.First();
+            var i1 = Convert.ToInt32(k1.Key);
+            var len1 = k1.Value.Length(_node);
+
+            // 分割後の要素
+            var k2 = newMember.Last();    
+            // var len2 = k2.Value.Length(_node);
+
+
+            // 分割した部材に合わせて着目点を修正する
+            var temp = new List<NoticePoint>();
+            foreach (var np in this.noticepoints)
+            {
+                int k = Convert.ToInt32(np.m);
+                if (i1 < k)
+                {   // 分割前の要素より大きい部材番号
+                    np.m = (k + 1).ToString();
+                    np.row += 1;
+                    temp.Add(np);
+
+                } else if(k1.Key== np.m)
+                {
+                    // 分割前の部材
+                    var ld1 = new List<double>();
+                    foreach (var p in np.Points)
+                        if(p< len1)
+                            ld1.Add(p);
+                    var np1 = new NoticePoint() { 
+                        m = np.m, 
+                        row = np.row, 
+                        Points=ld1.ToArray() 
+                    };
+                    temp.Add(np1);
+
+                    // 分割後の部材
+                    var ld2 = new List<double>();
+                    foreach (var p in np.Points)
+                        if (len1 < p)
+                            ld2.Add(p - len1);
+                    var np2 = new NoticePoint() { 
+                        m = (k + 1).ToString(), 
+                        row = np.row+1, 
+                        Points = ld2.ToArray() 
+                    };
+                    temp.Add(np2);
+                }
+                else
+                {
+                    temp.Add(np);
+                }
+            }
+
+            this.noticepoints = temp;
+        }
     }
 }

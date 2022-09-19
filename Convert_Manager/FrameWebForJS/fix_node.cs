@@ -99,5 +99,27 @@ namespace Convert_Manager.FrameWebForJS
         {
             return FixNodeList;
         }
+
+        /// <summary>
+        /// nNo 以上の節点番号を+1する
+        /// </summary>
+        /// <param name="nNo"></param>
+        internal void addNewNode(string nNo)
+        {
+            int iNo = Convert.ToInt32(nNo);
+            foreach(var f1 in this.FixNodeList)
+            {
+                foreach(var f2 in f1.Value)
+                {
+                    int k = Convert.ToInt32(f2.n);
+                    if(iNo <= k)
+                    {
+                        f2.n = (k + 1).ToString();
+                    }
+
+                }
+
+            }
+        }
     }
 }
