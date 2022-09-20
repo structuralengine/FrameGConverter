@@ -96,16 +96,13 @@ namespace Convert_Manager.FrameWebForJS
             var tmpLoadList = new Dictionary<string, Load>();
 
             /// 荷重名称の読み込み
-            if (wdata.ContainsKey(load.wFile1))
-                readKajyu(wdata, tmpLoadList);
+            readKajyu(wdata, tmpLoadList);
 
             /// 荷重強度の読み込み
-            if (wdata.ContainsKey(load.wFile))
-                readK_JituBuzai(wdata, tmpLoadList);
+            readK_JituBuzai(wdata, tmpLoadList);
 
             /// 合成荷重の読み込み
-            if (wdata.ContainsKey(load.wFile2) && wdata.ContainsKey(load.wFile3))
-                readMix(wdata, tmpLoadList);
+            readMix(wdata, tmpLoadList);
 
             /// FrameG -> FrameWebforJS に変換
             this.exchangeData(tmpLoadList);
@@ -200,7 +197,9 @@ namespace Convert_Manager.FrameWebForJS
                 lod.load_node = lnLlist.ToArray();
             }
 
-            tmpLoadList.Add(index.ToString(), lod);
+            if(lod.load_member.Length + lod.load_node.Length > 0)
+                tmpLoadList.Add(index.ToString(), lod);
+
             index++;
 
         }
@@ -310,6 +309,9 @@ namespace Convert_Manager.FrameWebForJS
         /// </summary>
         private void readK_JituBuzai(Dictionary<string, string> wdata, Dictionary<string, Load> tmpLoadList)
         {
+            if (!wdata.ContainsKey(load.wFile))
+                return;
+
             var str = wdata[load.wFile];
 
             // 1行の抽出
@@ -411,6 +413,9 @@ namespace Convert_Manager.FrameWebForJS
         /// <param name="tmpLoadList"></param>
         private void readKajyu(Dictionary<string, string> wdata, Dictionary<string, Load> tmpLoadList)
         {
+            if (!wdata.ContainsKey(load.wFile1))
+                return;
+
             var str = wdata[load.wFile1];
 
             // 1行の抽出

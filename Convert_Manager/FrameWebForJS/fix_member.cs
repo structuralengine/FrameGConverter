@@ -70,7 +70,7 @@ namespace Convert_Manager.FrameWebForJS
             for (var j = 0; j < 16; j++)
             {
                 var kkk = new List<FixMember>();
-                var row = 0;
+                var row = 1;
                 foreach (var val in kk)
                 {
                     var e = new FixMember();
