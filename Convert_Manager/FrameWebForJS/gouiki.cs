@@ -140,12 +140,12 @@ namespace Convert_Manager.FrameWebForJS
                 if(i == 0)
                 {   // i端から
                     g.Value.iDistance = 0;
-                    this.Split(mNo, Distance[i], eNo, m.e, inputData);
+                    this.Split(mNo, Distance[i], eNo, m.e, inputData, i);
                 }
                 else
                 {   // j端から
                     g.Value.jDistance = 0;
-                    this.Split(mNo, mLength - Distance[i], m.e, eNo, inputData);
+                    this.Split(mNo, mLength - Distance[i], m.e, eNo, inputData, i);
                 }
                 result = true;
                 break;
@@ -162,7 +162,8 @@ namespace Convert_Manager.FrameWebForJS
         /// <param name="j_eNo">j端側の材料番号</param>
         private void Split( string old_mNo, double Distance,
                             string i_eNo, string j_eNo,
-                            Dictionary<string, object> inputData)
+                            Dictionary<string, object> inputData,
+                            int side)
         {
             node _node = (node)inputData["node"];
             member _member = (member)inputData["member"];
@@ -201,7 +202,21 @@ namespace Convert_Manager.FrameWebForJS
                 {
                     if (g.Key == old_mNo)
                     {   // 二分割された部材
-                        temp.Add(g.Key, g.Value);
+                        temp.Add(g.Key, new Gouiki()
+                        {
+                            iDistance = g.Value.iDistance,
+                            jDistance = 0,
+                            A = g.Value.A,
+                            I = g.Value.I
+                        });
+                        if (side == 0)
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
                     }
                     k += 1;
                 }
