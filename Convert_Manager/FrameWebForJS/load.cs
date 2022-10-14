@@ -446,16 +446,20 @@ namespace Convert_Manager.FrameWebForJS
                 lo.name = tmp.Trim();
 
                 tmp = comon.byteSubstr(ref str, 3).Trim();
-                lo.fix_node = (0 < tmp.Length) ? Convert.ToInt32(tmp) : 1;
+                if (!int.TryParse(tmp, out lo.fix_node))
+                    lo.fix_node = 1;
 
                 tmp = comon.byteSubstr(ref str, 3).Trim();
-                lo.element = (0 < tmp.Length) ? Convert.ToInt32(tmp) : 1;
+                if (!int.TryParse(tmp, out lo.element))
+                    lo.element = 1;
 
                 tmp = comon.byteSubstr(ref str, 3).Trim();
-                lo.fix_member = (0 < tmp.Length) ? Convert.ToInt32(tmp) : 1;
+                if (!int.TryParse(tmp, out lo.fix_member))
+                    lo.fix_member = 1;
 
                 tmp = comon.byteSubstr(ref str, 3).Trim();
-                lo.joint = (0 < tmp.Length) ? Convert.ToInt32(tmp) : 1;
+                if (!int.TryParse(tmp, out lo.joint))
+                    lo.joint = 1;
 
                 tmpLoadList.Add((i + 1).ToString(), lo);
             }
