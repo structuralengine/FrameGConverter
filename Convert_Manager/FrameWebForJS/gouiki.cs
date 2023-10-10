@@ -148,7 +148,6 @@ namespace Convert_Manager.FrameWebForJS
                     this.Split(mNo, mLength - Distance[i], m.e, eNo, inputData, i);
                 }
                 result = true;
-                break;
             }
             return result;
         }

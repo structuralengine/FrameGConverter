@@ -88,6 +88,17 @@ namespace Convert_Manager.FrameWebForJS
 
             foreach (var e1 in this.ElementList)
             {
+                if (!e1.Value.ContainsKey(eNo))
+                { // もし既に登録済の諸元になかったら新しい諸元を追加する処理に飛ぶ
+                    e1.Value.Add(eNo,
+                        new Element()
+                        {
+                            A = A,
+                            Iz = Iz,
+                        });
+                    return eNo;
+                }
+
                 var eNoe = e1.Value[eNo];
                 foreach (var e2 in e1.Value)
                 {
