@@ -63,7 +63,7 @@ namespace Convert_Manager.FrameWebForJS
                         e.Iz = Iz[j] * n;
                     }
                     // 有効判定
-                    if (e.E != 0 && e.Xp != 0 && e.A != 0 && e.Iz != 0)
+                    if (e.E != 0 && e.A != 0 && e.Iz != 0)
                     {
                         eee.Add(No, e);
                     }
