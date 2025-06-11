@@ -80,6 +80,7 @@ namespace Convert_Manager.FrameWebForJS
                     var fb = fn_base[i - 1];
                     var fn = new FixNode() { row = fb.row, n = fb.n, count = fb.count };
                     var tmp = lst1[1 + j * 3];
+                    tmp = tmp.Trim();
                     fn.tx = (0 < tmp.Length) ? Convert.ToDouble(tmp) : 0;
                     tmp = lst1[2 + j * 3];
                     fn.ty = (0 < tmp.Length) ? Convert.ToDouble(tmp) : 0;
