@@ -135,14 +135,15 @@ namespace Convert_Manager.FrameWebForJS
             var str2 = wdata[load.wFile2];
             var str3 = wdata[load.wFile3];
 
-            int index = tmpLoadList.Count + 1;
-
-            var lod = new Load();
-            var lmLlist = new List<LoadMember>();
-            var lnLlist = new List<LoadNode>();
 
             while (str2.Length > 9)
             {
+                int index = tmpLoadList.Count + 1;
+
+                var lod = new Load();
+                var lmLlist = new List<LoadMember>();
+                var lnLlist = new List<LoadNode>();
+
                 // 全体の割り増し係数
                 var tmp = comon.byteSubstr(ref str3, 10).Trim();
                 lod.rate = (0 < tmp.Length) ? Convert.ToDouble(tmp) : 1;
@@ -205,12 +206,12 @@ namespace Convert_Manager.FrameWebForJS
 
                 lod.load_member = lmLlist.ToArray();
                 lod.load_node = lnLlist.ToArray();
+
+                if (lod.load_member.Length + lod.load_node.Length > 0)
+                {
+                    tmpLoadList.Add(index.ToString(), lod);
+                }
             }
-
-            if(lod.load_member.Length + lod.load_node.Length > 0)
-                tmpLoadList.Add(index.ToString(), lod);
-
-            index++;
 
         }
 
