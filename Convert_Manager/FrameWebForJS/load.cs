@@ -18,6 +18,11 @@ namespace Convert_Manager.FrameWebForJS
         public double P1;
         public double P2;
 
+        public LoadMember Clone()
+        {
+            return (LoadMember)MemberwiseClone();
+        }
+
         public bool Enable()
         {
             var val1 = m1.Trim().Length
@@ -46,6 +51,11 @@ namespace Convert_Manager.FrameWebForJS
         //public double rx;
         //public double ry;
         public double rz;
+
+        public LoadNode Clone()
+        {
+            return (LoadNode)MemberwiseClone();
+        }
 
         public bool Enable()
         {
@@ -125,14 +135,15 @@ namespace Convert_Manager.FrameWebForJS
             var str2 = wdata[load.wFile2];
             var str3 = wdata[load.wFile3];
 
-            int index = tmpLoadList.Count + 1;
-
-            var lod = new Load();
-            var lmLlist = new List<LoadMember>();
-            var lnLlist = new List<LoadNode>();
 
             while (str2.Length > 9)
             {
+                int index = tmpLoadList.Count + 1;
+
+                var lod = new Load();
+                var lmLlist = new List<LoadMember>();
+                var lnLlist = new List<LoadNode>();
+
                 // 全体の割り増し係数
                 var tmp = comon.byteSubstr(ref str3, 10).Trim();
                 lod.rate = (0 < tmp.Length) ? Convert.ToDouble(tmp) : 1;
@@ -173,8 +184,8 @@ namespace Convert_Manager.FrameWebForJS
                             continue;
 
                         var l = tmpLoadList[tmp4];
-                        var mlo = l.load_member.Clone() as LoadMember[];
-                        var nlo = l.load_node.Clone() as LoadNode[];
+                        var mlo = l.load_member.Select(x => x.Clone()).ToArray();
+                        var nlo = l.load_node.Select(x => x.Clone()).ToArray();
 
                         foreach(var ml in mlo)
                         {
@@ -195,12 +206,12 @@ namespace Convert_Manager.FrameWebForJS
 
                 lod.load_member = lmLlist.ToArray();
                 lod.load_node = lnLlist.ToArray();
+
+                if (lod.load_member.Length + lod.load_node.Length > 0)
+                {
+                    tmpLoadList.Add(index.ToString(), lod);
+                }
             }
-
-            if(lod.load_member.Length + lod.load_node.Length > 0)
-                tmpLoadList.Add(index.ToString(), lod);
-
-            index++;
 
         }
 
@@ -391,11 +402,11 @@ namespace Convert_Manager.FrameWebForJS
 
                     // 要素荷重
                     if (fm.Enable())
-                        lm.Add(fm);
+                        lm.Add(fm.Clone());
 
                     // 節点荷重
                     if (fn.Enable())
-                        ln.Add(fn);
+                        ln.Add(fn.Clone());
 
                     // 登録
                     ll.load_node = ln.ToArray();
